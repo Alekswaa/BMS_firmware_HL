@@ -1,0 +1,10 @@
+#ifndef CONFIGURATIONS_H
+#define CONFIGURATIONS_H
+
+#define NUMBER_OF_CELLS_PER_MODULE 10
+#define NUMBER_OF_MODULES_PER_BMS 9
+
+
+
+
+#endif
