@@ -3,27 +3,16 @@
 #include "driver_init.h" 
 #include <stdint.h>
 #include "testing.h"
-
+#include "function_defs.h"
 
 #define ADC_12BIT 4096.0
 
 extern state g_bms_state;
-extern uint16_t* current_memory;
+extern uint16_t* regCurrent;
 
 /* Buffer for ADC values */
 uint8_t buffer[32];
 
-// Timer interrupt
-void irq_handler_battery_acquisition(){
-    /* Battery acquisition has finished, 
-       start checking that values are within 
-       acceptable ranges
-    */
-   /*Save KF current state.
-    Potentially wait for the current 
-    calculation to finish*/
-    g_bms_state = CELL_SAFETY;
-}
 
 /* ADC interrupt when measurement is finished */
 /* This measurement should be for the CCC*/
@@ -47,5 +36,72 @@ static void TIMER_0_heartbeat_cb(const struct timer_task *const timer_task)
 {
      /* VCU heartbeat.
        Timer that periodically triggers
-       a heartbeat to be sent*/
+       a heartbeat to be sent */
 }
+
+
+//ISOSPI-------------------------------------------------------------
+
+/* Rx bufs saved in array for easy access */
+extern uint16_t* rxBufs[];
+extern uint16_t read_cmds[];
+
+/* Number of voltage registers read */
+int nr_regs_read = 0;
+
+/* Callback interrupt handler for voltage transfer has completed(rx should also be done at this point)*/
+extern uint8_t* message;
+extern enum BMS_STATE state;
+
+/**
+ * @brief Callback function that is run when the async spi has finished a transfer(when this cb is activated).
+ * The first four times is for the voltage registers, the consequent two are for the temperature GPIOs. 
+ * Initiates new transfers and keeps count of how many registers have been read. 
+ */
+static int dec_one = 0;
+void SPI_voltage_cb()
+{
+	free(message);
+	spi_disable_cs();
+
+	nr_regs_read++;
+	if(nr_regs_read == 4){
+		state = ACQUIRE;
+		dec_one = 1;
+		return;
+	}else if(nr_regs_read > 6){
+		dec_one = 0;
+		return;
+	}
+
+	spi_enable_cs();
+	spi_read_volt_reg_ltc6811(read_cmds[nr_regs_read - dec_one], (uint8_t*)rxBufs[nr_regs_read - dec_one]);
+	return;
+}
+
+bool init_done = false;
+/**
+ * @brief Used for writing the configuration to the LTC6811
+ */
+extern uint8_t* init_msg;
+void SPI_init(){
+	spi_disable_cs();
+	free(init_msg);
+}
+
+bool init_meas_done;
+extern uint8_t* msg;
+void SPI_init_meas(){
+	free(msg);
+	init_meas_done = true;
+	spi_disable_cs();
+}
+
+
+
+
+
+
+
+
+//-------------------------------------------------------------
