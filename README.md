@@ -74,8 +74,8 @@ Once the first data register has been read by the SPI peripheral the next will b
 | 26    | PA4     | FTDI_TX                            |
 | 27    | PA9     | UART0_RX                           |
 | 28    | PA10    | UART0_TX                           |
-| 29    |         |                                    |
-| 30    |         |                                    |
+| 29    | PC25    | LTC6820_EN                         |
+| 30    | PC28    | SPI0_CS                            |
 | 31    |         |                                    |
 | 32    |         |                                    |
 | 33    |         |                                    |

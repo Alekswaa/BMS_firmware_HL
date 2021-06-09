@@ -1,8 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "atmel_start.h"
-#include "driver_examples.h"
-#include "driver_init.h"
 #include "utils.h"
 #include "PEC.h"
 #include "conf.h"
