@@ -6,3 +6,6 @@
 * Create routine for Init LV
 * Create routine for Init HV
 * UART driver
+
+//Maybe baby
+* Look into the M2M DMA driver. Can be used to use memcpy and memset async(Optimizations :smirk:)

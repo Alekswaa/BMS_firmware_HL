@@ -8,6 +8,8 @@
 
 
 ## Finite state machine in main
+<img src="./pictures/BMS_Firmware.png"> <!-- https://app.diagrams.net/#G1L0Rt-GO7HkVY3zLnnExWh2S9fs9ZJiAZ -->
+
 1. Init
     * Low voltage
     * Send message confirming LW
@@ -53,7 +55,7 @@ Once the first data register has been read by the SPI peripheral the next will b
 | 7     | PC2     | ?                                  |
 | 8     | PC1     | ?                                  |
 | 9     | PC0     | Precharge                          |
-| 10    | PA31    | ADC_CONVST (**Conversion start?**) |
+| 10    | PA31    | ADC_CONVST                         |
 | 11    | PA17    | AD6(CH3)                           |
 | 12    | PA18    | AD7(CH3)                           |
 | 13    | PA10    | BUSCNV TX                          |
@@ -66,3 +68,14 @@ Once the first data register has been read by the SPI peripheral the next will b
 | 20    | PB1     | BSOL2                              |
 | 21    | PB0     | TBDR2                              |
 | 22    | PD24    | ?                                  |
+| 23    | PC14    | CANTX1                             |
+| 24    | PC12    | CANRX1                             |
+| 25    | PA3     | FTDI_RX                            |
+| 26    | PA4     | FTDI_TX                            |
+| 27    | PA9     | UART0_RX                           |
+| 28    | PA10    | UART0_TX                           |
+| 29    |         |                                    |
+| 30    |         |                                    |
+| 31    |         |                                    |
+| 32    |         |                                    |
+| 33    |         |                                    |
